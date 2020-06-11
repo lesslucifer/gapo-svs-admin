@@ -7,10 +7,18 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "@trendmicro/react-sidenav": "^0.5.0",
+    "bootstrap": "^4.5.0",
+    "jsoneditor": "^9.0.0",
+    "jsoneditor-react": "^3.0.0",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.0.1",
+    "react-click-outside": "github:tj/react-click-outside",
     "react-dom": "^16.13.1",
+    "react-json-editor-ajrm": "^2.5.9",
+    "react-json-view": "^1.19.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "sweetalert": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
