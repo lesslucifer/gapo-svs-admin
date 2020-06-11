@@ -6,7 +6,7 @@ import {
     Redirect
 } from "react-router-dom";
 
-import AuthComponent from "./components/AuthComponent";
+import AuthPage from "../pages/AuthPage";
 
 export default class MainAppComponent extends Component {
     constructor(props) {
@@ -23,7 +23,7 @@ export default class MainAppComponent extends Component {
                     <Route>
                         <Switch>
                             <Route exact path="/auth">
-                                <AuthComponent />
+                                <AuthPage />
                             </Route>
                             <Route path="/charts/barchart" component={(props) => <BarChart {...props} />} />
                             <Route path="/charts/linechart" component={(props) => <LineChart {...props} />} />

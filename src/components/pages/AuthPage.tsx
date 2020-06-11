@@ -1,17 +1,13 @@
 import React, { Component } from 'react'
 import { Table, Form, Button, Col, Row } from 'react-bootstrap'
-import AuthServ from '../serv/Auth'
-import SwalCover from '../serv/SwalCover'
+import AuthServ from '../../serv/Auth'
+import SwalCover from '../../serv/SwalCover'
 
-export default class AuthComponent extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            auths: [],
-            newAuthType: '',
-            newAuthHeaders: ''
-        }
+export default class AuthPage extends Component {
+    state = {
+        auths: [],
+        newAuthType: '',
+        newAuthHeaders: ''
     }
 
     componentDidMount() {
@@ -28,8 +24,9 @@ export default class AuthComponent extends Component {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th width="20%">Type</th>
+                        <th style={{width: '20%'}}>Type</th>
                         <th>Headers</th>
+                        <th style={{width: '10%'}}></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,6 +34,11 @@ export default class AuthComponent extends Component {
                         <tr key={auth.authType}>
                             <td>{auth.authType}</td>
                             <td>{Object.keys(auth.headers).map(h => `${h}: ${auth.headers[h]}`).join('\n')}</td>
+                            <td  style={{textAlign: 'center'}}>
+                                <Button onClick={() => console.log('Hello')}>
+                                    <span className="fa fa-trash-o fa-lg" aria-hidden="true"></span>
+                                </Button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
@@ -58,7 +60,7 @@ export default class AuthComponent extends Component {
                             Headers
                         </Form.Label>
                         <Col sm="10">
-                            <Form.Control as='textarea' value={this.state.newAuthHeaders} onChange={(e) => this.setState({ newAuthHeaders: e.target.value })}/>
+                            <Form.Control as='textarea' value={this.state.newAuthHeaders} onChange={(e: any) => this.setState({ newAuthHeaders: e.target.value })} />
                         </Col>
                     </Form.Group>
                     <Button onClick={this.addNewAuthType.bind(this)}>Add</Button>
@@ -77,6 +79,8 @@ export default class AuthComponent extends Component {
             throw new Error('Auth type already defined')
         }
 
+        console.log(this.state)
+
         this.setState({
             auths: [
                 ...this.state.auths,
@@ -86,7 +90,7 @@ export default class AuthComponent extends Component {
             newAuthHeaders: ''
         })
 
-        this.trySave()
+        setTimeout(() => this.trySave())
     }
 
     trySave() {

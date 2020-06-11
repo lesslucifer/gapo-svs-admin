@@ -1,9 +1,10 @@
 import swal from 'sweetalert';
+import { ErrorMessageInterpolationService } from './ErrorMessageInterpolation';
 
 export const SWAL_COVER_DEFAULT_TITLE = 'Lỗi'
 export const SWAL_COVER_DEFAULT_MSG = 'Vui lòng thử lại'
 
-export function SwalCover(defaultMsg, title) {
+export function SwalCover(defaultMsg?, title?) {
     defaultMsg = defaultMsg || SWAL_COVER_DEFAULT_MSG
     return (target, key, desc) => {
         const method = desc.value;
@@ -21,3 +22,5 @@ export function SwalCover(defaultMsg, title) {
         return desc;
     }
 }
+
+export default SwalCover;

@@ -1,16 +1,7 @@
-.App {
-  /* text-align: center; */
-}
-
 .App-logo {
+  animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
   pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
 
 .App-header {
@@ -35,4 +26,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+main {
+  background-color: transparent;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 15px;
+}
+
+.screen_content {
+  margin-top: 15vh;
+  margin-bottom: 10vh;
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
