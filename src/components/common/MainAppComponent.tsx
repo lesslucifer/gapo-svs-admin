@@ -6,7 +6,10 @@ import {
     Redirect
 } from "react-router-dom";
 
-import AuthPage from "../pages/AuthPage";
+import EnvPage from "../pages/EnvPage";
+import FaissBackendPage from '../pages/FaissBackendPage';
+import FaissDatasetPage from '../pages/FaissDatasetPage';
+import AppHeaderComponent from './AppHeaderComponent';
 
 export default class MainAppComponent extends Component {
     constructor(props) {
@@ -16,18 +19,16 @@ export default class MainAppComponent extends Component {
     render() {
         return (
             <div className="MainAppComponent">
-                <h1 className="HeaderBar">
-                    SVS Admin
-                </h1>
+                <AppHeaderComponent />
                 <div className="MainAppRoute">
                     <Route>
                         <Switch>
-                            <Route exact path="/auth">
-                                <AuthPage />
+                            <Route exact path="/envs">
+                                <EnvPage />
                             </Route>
-                            <Route path="/charts/barchart" component={(props) => <BarChart {...props} />} />
-                            <Route path="/charts/linechart" component={(props) => <LineChart {...props} />} />
-                            <Redirect from="/" to="auth" />
+                            <Route path="/faiss/datasets" component={(props) => <FaissDatasetPage {...props} />} />
+                            <Route path="/faiss/backends" component={(props) => <FaissBackendPage {...props} />} />
+                            <Redirect from="/" to="envs" />
                         </Switch>
                     </Route>
                 </div>

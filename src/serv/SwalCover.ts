@@ -14,6 +14,7 @@ export function SwalCover(defaultMsg?, title?) {
                 return await Promise.resolve(method.apply(this, args))
             }
             catch (err) {
+                console.error(err)
                 const msg = ErrorMessageInterpolationService.interpolate(err, defaultMsg);
                 swal(title || SWAL_COVER_DEFAULT_TITLE, msg, 'error');
             }

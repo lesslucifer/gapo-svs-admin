@@ -38,21 +38,16 @@ export default class AppSideBarComponent extends Component {
                                     Home
                                 </NavText>
                             </NavItem>
-                            <NavItem eventKey="charts">
+                            <NavItem eventKey="faiss">
                                 <NavIcon>
-                                    <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
+                                    <i className="fa fa-fw fa-compass" style={{ fontSize: '1.75em' }} />
                                 </NavIcon>
                                 <NavText>
-                                    Charts
+                                    Faiss
                                 </NavText>
-                                <NavItem eventKey="charts/linechart">
+                                <NavItem eventKey="faiss/backends">
                                     <NavText>
-                                        Line Chart
-                                    </NavText>
-                                </NavItem>
-                                <NavItem eventKey="charts/barchart">
-                                    <NavText>
-                                        Bar Chart
+                                        Backends
                                     </NavText>
                                 </NavItem>
                             </NavItem>
