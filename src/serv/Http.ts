@@ -16,8 +16,8 @@ class HttpService {
     constructor(
     ) { }
 
-    async req(method: string, url: string, body?: any, headers?: any) {
-        const opts: any = {
+    async req(method: string, url: string, body?: any, headers?: any, hook?: any) {
+        let opts: any = {
             method
         };
         opts.headers = new Headers();
@@ -34,15 +34,22 @@ class HttpService {
             }
         }
 
+        if (hook) {
+            [url, opts] = hook(url, opts)
+        }
+
         const resp = await fetch(`${url}`, opts);
+        if (resp.status < 200 || resp.status > 299) {
+            throw new HttpRequestError(`HTTP Request error ${resp.status}!`, resp.status)
+        }
         const json = await resp.json();
 
         return json;
     }
 
-    async faissReq(method: string, url: string, body?: any) {
+    async faissReq(method: string, url: string, body?: any, hook?: any) {
         return await this.req(method, `${EnvServ.getCurrentFieldStrict('FAISS_HOST')}${url}`,
-            body, JSON.parse(EnvServ.getCurrentFieldStrict('AUTH_HEADERS')))
+            body, JSON.parse(EnvServ.getCurrentFieldStrict('AUTH_HEADERS')), hook)
     }
 }
 

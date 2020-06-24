@@ -107,7 +107,7 @@ export default class EnvPage extends Component {
 
     @SwalCover()
     async removeField(field) {
-        EnvServ.removeField(this.state.env, this.state.newFieldName)
+        EnvServ.removeField(this.state.env, field)
         setTimeout(() => {
             EnvServ.save();
             this.reloadFields()

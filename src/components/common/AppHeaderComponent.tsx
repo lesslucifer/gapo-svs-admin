@@ -24,7 +24,7 @@ export default class AppHeaderComponent extends Component {
     render() {
         return (
             <div className="AppHeaderComponent HeaderBar row">
-                <h1 className="col-sm-2">
+                <h1 className="col-sm-3">
                     SVS Admin
                 </h1>
                 <Form.Control className="sel_margin col-sm-2 mt-2" as="select" value={this.state.env} onChange={this.onSelectEnv.bind(this)} >

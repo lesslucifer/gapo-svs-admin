@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 import HeraServ from "../../utils/hera";
-import SwalCover from "../../serv/SwalCover";
+import SwalCover, { SwalLoading } from "../../serv/SwalCover";
 import Http from "../../serv/Http";
 import swal from 'sweetalert'
 import EnvServ from "../../serv/Env";
@@ -52,6 +52,7 @@ export default class FaissDatasetPage extends Component {
     }
 
     @SwalCover("Không thể tạo dataset")
+    @SwalLoading()
     async createNewDataset() {
         if (!this.state.code) throw new Error("Bạn chưa nhập dataset code")
         if (this.uidsFileRef.current.files.length === 0) throw new Error("Bạn chưa chọn uids file")

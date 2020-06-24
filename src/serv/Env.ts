@@ -54,7 +54,9 @@ export class EnvService {
         if (!fields) return;
 
         const idx = fields.findIndex(f => f.field === field)
-        fields.splice(idx, 1)
+        if (idx >= 0) {
+            fields.splice(idx, 1)
+        }
     }
 
     save() {
