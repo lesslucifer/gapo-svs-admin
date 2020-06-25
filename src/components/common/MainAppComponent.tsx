@@ -10,6 +10,8 @@ import EnvPage from "../pages/EnvPage";
 import FaissBackendPage from '../pages/FaissBackendPage';
 import FaissDatasetPage from '../pages/FaissDatasetPage';
 import AppHeaderComponent from './AppHeaderComponent';
+import SVSSuggestionPage from '../pages/SVSSuggestionsPage';
+import SVSDistributionPage from '../pages/SVSDistributionPage';
 
 export default class MainAppComponent extends Component {
     constructor(props) {
@@ -28,7 +30,9 @@ export default class MainAppComponent extends Component {
                             </Route>
                             <Route path="/faiss/datasets" component={(props) => <FaissDatasetPage {...props} />} />
                             <Route path="/faiss/backends" component={(props) => <FaissBackendPage {...props} />} />
-                            <Redirect from="/" to="envs" />
+                            <Route path="/svs/suggestions" component={(props) => <SVSSuggestionPage {...props} />} />
+                            <Route path="/svs/distribution" component={(props) => <SVSDistributionPage {...props} />} />
+                            <Route render={() => <Redirect to={{pathname: "/envs"}} />} />
                         </Switch>
                     </Route>
                 </div>

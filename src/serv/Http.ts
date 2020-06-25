@@ -51,6 +51,11 @@ class HttpService {
         return await this.req(method, `${EnvServ.getCurrentFieldStrict('FAISS_HOST')}${url}`,
             body, JSON.parse(EnvServ.getCurrentFieldStrict('AUTH_HEADERS')), hook)
     }
+
+    async svsReq(method: string, url: string, body?: any, hook?: any) {
+        return await this.req(method, `${EnvServ.getCurrentFieldStrict('SVS_HOST')}${url}`,
+            body, JSON.parse(EnvServ.getCurrentFieldStrict('AUTH_HEADERS')), hook)
+    }
 }
 
 const Http = new HttpService();

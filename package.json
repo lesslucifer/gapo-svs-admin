@@ -20,6 +20,7 @@
     "react-cookie": "^4.0.1",
     "react-dom": "^16.8.6",
     "react-image-file-resizer": "^0.2.0",
+    "react-json-editor-ajrm": "^2.5.9",
     "react-load-script": "0.0.6",
     "react-moment": "^0.9.2",
     "react-places-autocomplete": "^7.2.1",

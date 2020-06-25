@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Col, Row, Button } from "react-bootstrap";
+import { Form, Col, Row, Button, Table } from "react-bootstrap";
 import HeraServ from "../../utils/hera";
 import SwalCover, { SwalLoading } from "../../serv/SwalCover";
 import Http from "../../serv/Http";
@@ -9,6 +9,7 @@ import { openStdin } from "process";
 
 export default class FaissBackendPage extends Component {
     state = {
+        backends: [],
         code: '',
         dataset: '',
         user_layer: 'User_layer',
@@ -18,9 +19,46 @@ export default class FaissBackendPage extends Component {
 
     modelFileRef = React.createRef<any>();
 
+    componentDidMount() {
+        this.reloadBackendList()
+    }
+
     render() {
         return (
             <div>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th style={{ width: '20%' }}>Code</th>
+                            <th>Info</th>
+                            <th style={{ width: '20%' }}></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.backends.map(b => (
+                            <tr key={b.code}>
+                                <td>{b.code}</td>
+                                <td><div>{Object.keys(b).map(k => `${k}: ${b[k]}`).join('\n')}</div></td>
+                                <td style={{ textAlign: 'center' }}>
+                                    {(b.status == 'ENABLED') &&
+                                    <div>
+                                        <Button variant="danger" className="mr-1" onClick={() => {this.disableBackend(b.code)}}>
+                                            Disable
+                                        </Button>
+                                        <Button onClick={() => {this.reloadBackend(b.dataset)}}>
+                                            Reload
+                                        </Button>
+                                    </div>}
+                                    {b.status == 'DISABLED' && (
+                                    <Button variant="success" onClick={() => {this.enableBackend(b.code)}}>
+                                        Enable
+                                    </Button>)}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+
                 <h4>Add new Backends</h4>
                 <Form>
                     <Form.Group as={Row} controlId="code">
@@ -83,7 +121,16 @@ export default class FaissBackendPage extends Component {
         )
     }
 
+    @SwalCover('Không tải được danh sách backends')
+    async reloadBackendList() {
+        const backends = await Http.faissReq('GET', '/faiss-backends', null)
+        this.setState({
+            backends: backends
+        })
+    }
+
     @SwalCover("Không thể tạo backend mới")
+    @SwalLoading()
     async createNewBackend() {
         if (!this.state.code) throw new Error("Bạn chưa nhập backend code")
         if (!this.state.dataset) throw new Error("Bạn chưa nhập backend dataset")
@@ -108,10 +155,38 @@ export default class FaissBackendPage extends Component {
         })
         await Http.faissReq('PUT', `/faiss-backends/${this.state.code}/model_file`, undefined, (url, opts) => {
             const formData = new FormData();
-            formData.append('model', modelFile)
+            formData.append('model', modelFile, `${this.state.code}.h5`)
+            opts.headers.delete('Content-Type')
+            opts.headers.delete('Accept')
             opts.body = formData
+            console.log(opts)
             return [url, opts]
         })
-        await swal('Thành công', 'Tạo Dataset thành công', 'success')
+        await swal('Thành công', 'Tạo backend thành công', 'success')
+        await this.reloadBackendList()
+    }
+    
+    @SwalCover()
+    @SwalLoading()
+    async enableBackend(code: string) {
+        await Http.faissReq('PUT', `/faiss-backends/${code}/status/enabled`, undefined)
+        await swal('Thành công', 'Enable backend thành công', 'success')
+        await this.reloadBackendList()
+    }
+    
+    @SwalCover()
+    @SwalLoading()
+    async disableBackend(code: string) {
+        await Http.faissReq('PUT', `/faiss-backends/${code}/status/disabled`, undefined)
+        await swal('Thành công', 'Disable backend thành công', 'success')
+        await this.reloadBackendList()
+    }
+    
+    @SwalCover()
+    @SwalLoading()
+    async reloadBackend(dsCode: string) {
+        await Http.faissReq('PUT', `/faiss-backends/.cache/datasets/${dsCode}/reload`, undefined)
+        await swal('Thành công', 'Reload backend thành công', 'success')
+        await this.reloadBackendList()
     }
 }
