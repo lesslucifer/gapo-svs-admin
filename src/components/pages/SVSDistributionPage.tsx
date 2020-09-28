@@ -5,7 +5,7 @@ import SwalCover, { SwalLoading } from "../../serv/SwalCover";
 import Http from "../../serv/Http";
 import swal from 'sweetalert'
 import EnvServ from "../../serv/Env";
-import JSONInput from 'react-json-editor-ajrm';
+import CodeEditor from "../common/CodeEditor";
 
 export default class SVSDistributionPage extends Component {
     state = {
@@ -27,14 +27,7 @@ export default class SVSDistributionPage extends Component {
                     Config
                 </Form.Label>
                 <Col sm="10">
-                    <JSONInput
-                        id='distribution-config'
-                        height='350px'
-                        width='1000px'
-                        placeholder={this.state.distribution}
-                        ref={this.jsonEditorRef}
-                        onChange={e => this.setState({newDistribution: e.jsObject})}
-                    />
+                    <CodeEditor defaultValue={JSON.stringify(this.state.distribution, null, 2)} onChange={()=>{}}/>
                 </Col>
                 <Button className="ml-3 mt-1" onClick={() => this.updateDistribution()}>Update config</Button>
             </div>

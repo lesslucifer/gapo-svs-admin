@@ -4,15 +4,15 @@ import HeraServ from "../../utils/hera";
 import SwalCover, { SwalLoading } from "../../serv/SwalCover";
 import Http from "../../serv/Http";
 import swal from 'sweetalert'
-import JSONInput from 'react-json-editor-ajrm';
 import EnvServ from "../../serv/Env";
+import CodeEditor from "../common/CodeEditor";
 
 export default class SVSSuggestionPage extends Component {
     state = {
         suggestions: [],
         updatingConfigs: {},
         newCode: '',
-        newConfig: {}
+        newConfig: ''
     }
 
     componentDidMount() {
@@ -35,18 +35,7 @@ export default class SVSSuggestionPage extends Component {
                             <tr key={sugg.code}>
                                 <td>{sugg.code}</td>
                                 <td>
-                                    <JSONInput
-                                        id={sugg.code}
-                                        placeholder={sugg.config}
-                                        height='350px'
-                                        width='750px'
-                                        onChange={(e) => this.setState({
-                                            updatingConfigs: {
-                                                ...this.state.updatingConfigs,
-                                                [sugg.code]: e.jsObject
-                                            }
-                                        })}
-                                    />
+                                    <CodeEditor defaultValue={JSON.stringify(sugg.config, null, 2)} onChange={val => {this.state.updatingConfigs[sugg.code] = val; this.forceUpdate()}} />
                                 </td>
                                 <td style={{ textAlign: 'center' }}>
                                     <Button className="mr-1" disabled={!this.state.updatingConfigs[sugg.code]}
@@ -77,14 +66,7 @@ export default class SVSSuggestionPage extends Component {
                             Config
                         </Form.Label>
                         <Col sm="10">
-                            <JSONInput
-                                id='new-suggestion-config'
-                                height='350px'
-                                width='1000px'
-                                onChange={(e) => this.setState({
-                                    newConfig: e.jsObject
-                                })}
-                            />
+                            <CodeEditor defaultValue="" onChange={(s) => this.setState({newConfig: s})}/>
                         </Col>
                     </Form.Group>
                     <Button onClick={() => this.addNewConfig()}>Add config</Button>
@@ -109,9 +91,11 @@ export default class SVSSuggestionPage extends Component {
 
         if (!await EnvServ.productionConfirmation()) return
 
+        const newConfig = JSON.parse(this.state.newConfig)
+
         await Http.svsReq('POST', `/suggestion-configs`, {
             code: this.state.newCode,
-            config: this.state.newConfig
+            config: newConfig
         })
 
         await swal('Thành công', 'Tạo suggestion mới thành công', 'success')
@@ -127,7 +111,7 @@ export default class SVSSuggestionPage extends Component {
     async updateSuggestion(code: string, json: any) {
         if (!json) throw new Error('Cấu hình không phù hợp')
         await Http.svsReq('PUT', `/suggestion-configs/${code}`, {
-            config: json
+            config: JSON.parse(json)
         })
         await swal('Thành công', 'Cập nhật cấu hình thành công', 'success')
         await this.reloadSuggestions()

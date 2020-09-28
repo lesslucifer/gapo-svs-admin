@@ -79,7 +79,7 @@ export class EnvService {
             }
         })
         
-        return !!result
+        return await Promise.resolve(!!result)
     }
 }
 
